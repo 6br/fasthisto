@@ -12,7 +12,7 @@ crate-type = ["staticlib", "cdylib"]
 
 [dependencies]
 bam = "*"
-#bigtools = "*"
+#bigtools = { version = "*", default-features = false }
 bitpacking = "0.5" # Pfor
 flate2 = "1.0" # A streaming compression/decompression library
 log = "*"

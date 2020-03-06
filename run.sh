@@ -1,0 +1,1 @@
+cbindgen --crate rust_test2 --output rust_test.h
