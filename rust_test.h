@@ -1,21 +1,12 @@
-#include <cstdarg>
-#include <cstdint>
-#include <cstdlib>
-#include <new>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdlib.h>
 
-struct Region;
-
-template<typename T, typename E>
-struct Result;
-
-extern "C" {
+typedef struct Region Region;
 
 Region decrement_start(Region region);
 
-Result fmt(const Region *self, Formatter *f);
-
-const uint8_t *hello_rust();
+const uint8_t *hello_rust(void);
 
 void start_minus(Region *self);
-
-} // extern "C"
