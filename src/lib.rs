@@ -1,7 +1,8 @@
-#[macro_use]
-extern crate serde_derive;
+#![feature(rustc_private)]
 #[macro_use]
 extern crate log;
+
+extern crate libc;
 
 extern crate serde_json;
 extern crate bitpacking;
@@ -15,6 +16,9 @@ use flate2::Compression;
 use flate2::write::ZlibEncoder;
 use range::{Region};
 use std::io::prelude::*;
+
+use libc::{ c_void, c_char, size_t };
+use std::ffi::{ CStr, CString };
 
 /*
   TEST CASES

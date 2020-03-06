@@ -4,7 +4,7 @@ use std::fmt;
 use regex::Regex;
 // use std::r#try;
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq)]
 pub struct Region {
     pub path: String, // Requires no prefix
     pub start: u64,

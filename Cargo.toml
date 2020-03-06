@@ -12,15 +12,12 @@ crate-type = ["staticlib", "cdylib"]
 
 [dependencies]
 bam = "*"
-bigtools = "*"
+#bigtools = "*"
 bitpacking = "0.5" # Pfor
 flate2 = "1.0" # A streaming compression/decompression library
 log = "*"
 regex = "*" 
 serde = "*"
-serde_derive = "*"
+#serde_derive = "*"
 serde_json = "*"
 serde_yaml = "*"
-
-[build-dependencies]
-cbindgen = "*"
