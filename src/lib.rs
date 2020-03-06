@@ -7,6 +7,7 @@ extern crate serde_json;
 extern crate bitpacking;
 extern crate regex;
 
+#[no_mangle]
 pub mod range;
 
 use bitpacking::{BitPacker4x, BitPacker};
@@ -25,13 +26,20 @@ use std::io::prelude::*;
 
 */
 
-#[no_mangle]
-pub extern fn hello_rust() -> *const u8 {
-    "Hello, world!\0".as_ptr()
+#[repr(C)]
+struct RustObject {
+    a: i32,
+    // Other members...
 }
 
+
 #[no_mangle]
-pub extern fn bit_packing(data: &[u32]) -> Vec<u8> {
+pub extern "C" fn hello_rust() -> *const u8 {
+    "Hello, world!\0".as_ptr()
+}
+/*
+#[no_mangle]
+pub extern "C" fn bit_packing(data: *const u32) -> *const u8 {
     let mut original = vec![0u32, data.len() as u32];
     original.copy_from_slice(data);
 
@@ -41,11 +49,11 @@ pub extern fn bit_packing(data: &[u32]) -> Vec<u8> {
     let mut compressed = vec![0u8; 4 * BitPacker4x::BLOCK_LEN];
     let _compressed_len = bitpacker.compress(&original, &mut compressed[..], num_bits);
 
-    return compressed
+    return compressed.as_ptr()
 }
-
+*/
 #[no_mangle]
-pub extern fn decrement_start(mut region: Region) -> Region {
+pub extern "C" fn decrement_start(mut region: Region) -> Region {
     region.start_minus();
     return region
 }
@@ -60,7 +68,7 @@ pub extern fn load_bigbed(path: String, region: Region) -> Vec<Feature> {
 }
 */
 #[no_mangle]
-pub extern fn compress_bytes(words: &[u8]) -> Result<Vec<u8>, std::io::Error> {
+pub extern "C" fn compress_bytes(words: &[u8]) -> Result<Vec<u8>, std::io::Error> {
     let mut e = ZlibEncoder::new(Vec::new(), Compression::default());
     e.write_all(words)?;
     let compressed_bytes = e.finish();
