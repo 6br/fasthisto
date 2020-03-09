@@ -30,8 +30,9 @@ use std::ffi::{ CStr, CString };
 
 */
 
+#[no_mangle]
 #[repr(C)]
-struct RustObject {
+pub struct RustObject {
     a: i32,
     // Other members...
 }
