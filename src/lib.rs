@@ -16,6 +16,7 @@ use flate2::Compression;
 use flate2::write::ZlibEncoder;
 use range::{Region};
 use std::io::prelude::*;
+use std::slice;
 
 use libc::{ c_void, c_char, size_t };
 use std::ffi::{ CStr, CString };
@@ -42,9 +43,10 @@ pub struct RustObject {
 pub extern "C" fn hello_rust() -> *const u8 {
     "Hello, world!\0".as_ptr()
 }
-/*
+
 #[no_mangle]
-pub extern "C" fn bit_packing(data: *const u32) -> *const u8 {
+pub extern "C" fn bit_packing(ptr: *const u32, len: usize) -> *const u8 {
+    let data = unsafe { slice::from_raw_parts(ptr, len) };
     let mut original = vec![0u32, data.len() as u32];
     original.copy_from_slice(data);
 
@@ -56,7 +58,7 @@ pub extern "C" fn bit_packing(data: *const u32) -> *const u8 {
 
     return compressed.as_ptr()
 }
-*/
+
 #[no_mangle]
 pub extern "C" fn decrement_start(mut region: Region) -> Region {
     region.start_minus();
@@ -72,6 +74,7 @@ pub extern fn load_bigbed(path: String, region: Region) -> Vec<Feature> {
     )
 }
 */
+
 #[no_mangle]
 pub extern "C" fn compress_bytes(words: &[u8]) -> Result<Vec<u8>, std::io::Error> {
     let mut e = ZlibEncoder::new(Vec::new(), Compression::default());
@@ -79,6 +82,12 @@ pub extern "C" fn compress_bytes(words: &[u8]) -> Result<Vec<u8>, std::io::Error
     let compressed_bytes = e.finish();
     return compressed_bytes
 }
+/*
+#[no_mangle]
+pub extern "C" fn compress_bytes_extern(words: [u32;8]) -> [u8;8] {
+    
+}
+*/
 
 #[cfg(test)]
 mod tests {

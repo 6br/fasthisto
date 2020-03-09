@@ -11,6 +11,8 @@ typedef struct {
   uint64_t stop;
 } Region;
 
+const uint8_t *bit_packing(const uint32_t *ptr, uintptr_t len);
+
 Region decrement_start(Region region);
 
 const uint8_t *hello_rust(void);
