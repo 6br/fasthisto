@@ -19,7 +19,6 @@ use std::io::prelude::*;
 use std::slice;
 
 use libc::{ c_void, c_char, size_t };
-use std::ffi::{ CStr, CString };
 
 /*
   TEST CASES

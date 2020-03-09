@@ -3,10 +3,8 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-typedef struct String String;
-
 typedef struct {
-  String path;
+  CString path;
   uint64_t start;
   uint64_t stop;
 } Region;

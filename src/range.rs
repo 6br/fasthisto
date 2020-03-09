@@ -2,13 +2,14 @@ extern crate serde_yaml;
 use std::error::Error;
 use std::fmt;
 use regex::Regex;
+use std::ffi::{ CStr, CString };
 // use std::r#try;
 
 #[derive(Debug, PartialEq)]
 #[no_mangle]
 #[repr(C)]
 pub struct Region {
-    pub path: String, // Requires no prefix
+    pub path: CString, // Requires no prefix
     pub start: u64,
     pub stop: u64,
 }
@@ -16,7 +17,7 @@ pub struct Region {
 impl fmt::Display for Region {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         // Use `self.number` to refer to each positional data point.
-        write!(f, "{}:{}-{}", self.path, self.start, self.stop)
+        write!(f, "{:?}:{}-{}", self.path, self.start, self.stop)
     }
 }
 
@@ -66,7 +67,7 @@ impl Region {
         let stop_str: &str = stop.as_str().as_ref();
         let start_u64: u64 = start_str.parse::<u64>().map_err(|e| "Parse Int Error, ".to_string() + &e.to_string())?;
         let stop_u64: u64 = stop_str.parse::<u64>().map_err(|e| "Parse Int Error, ".to_string() + &e.to_string())?;
-        Ok(Region{path: path_string, start: start_u64, stop: stop_u64})
+        Ok(Region{path: CString::new(path_string).unwrap(), start: start_u64, stop: stop_u64})
     }
 
     pub fn new(path: String) -> Result<Self, Box<dyn Error>> {
@@ -79,7 +80,7 @@ impl Region {
         let stop_str: &str = stop.as_str().as_ref();
         let start_u64: u64 = start_str.parse::<u64>().map_err(|e| "Parse Int Error, ".to_string() + &e.to_string())?;
         let stop_u64: u64 = stop_str.parse::<u64>().map_err(|e| "Parse Int Error, ".to_string() + &e.to_string())?;
-        Ok(Region{path: path.as_str().to_string(), start: start_u64, stop: stop_u64})
+        Ok(Region{path: CString::new(path.as_str().to_string()).unwrap(), start: start_u64, stop: stop_u64})
     }
 
     pub fn uuid(self: &Region) -> String {
