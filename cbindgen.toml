@@ -7,3 +7,5 @@
 
 
 language = "C"
+
+sys_includes = ["stdio", "string"]
