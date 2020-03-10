@@ -128,11 +128,25 @@ pub extern "C" fn compress_bytes_extern(words: [u8;8]) -> Option<*const u8> {
     return compress_bytes(&words).map(|t| t.as_ptr()).ok()
 }
 
+#[no_mangle]
+pub extern "C" fn compress_bytes_extern_unwrap(words: [u8;8]) -> *const u8 {
+    return compress_bytes(&words).map(|t| t.as_ptr()).ok().unwrap()
+}
+
 
 #[cfg(test)]
 mod tests {
+    use super::*;
     #[test]
     fn it_works() {
+        assert_eq!(2 + 2, 4);
+    }
+
+    #[test]
+    fn compress_bytes_test() {
+        println!("{:?}", compress_bytes(&[1,2,3,4,5,6,7,8]));
+        println!("{:?}", compress_bytes_extern([1,2,3,4,5,6,7,8]));
+        unsafe {println!("{:?}", *(compress_bytes_extern([1,2,3,4,5,6,7,8])).unwrap()); }
         assert_eq!(2 + 2, 4);
     }
 }

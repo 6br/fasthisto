@@ -86,7 +86,7 @@ impl Region {
         return format!("{}", self);
     }
 }
-
+/*
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -111,3 +111,4 @@ mod tests {
         assert_eq!(region_format(b), b);
     }
 }
+*/

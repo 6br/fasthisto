@@ -13,6 +13,8 @@ const uint8_t *bit_packing(const uint32_t *ptr, uintptr_t len);
 
 const uint8_t *compress_bytes_extern(uint8_t words[8]);
 
+const uint8_t *compress_bytes_extern_unwrap(uint8_t words[8]);
+
 Region decrement_start(Region region);
 
 const uint8_t *deflate(uint8_t data[16]);
