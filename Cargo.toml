@@ -15,8 +15,10 @@ bam = "*"
 #bigtools = { version = "*", default-features = false }
 #bigtools = "*"
 bitpacking = "0.5" # Pfor
+deflate = "*" 
 flate2 = "1.0" # A streaming compression/decompression library
 log = "*"
+numpress = "1.0"
 regex = "*" 
 serde = "*"
 serde_json = "*"

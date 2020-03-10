@@ -7,6 +7,11 @@ extern crate libc;
 extern crate serde_json;
 extern crate bitpacking;
 extern crate regex;
+use deflate::deflate_bytes;
+extern crate bam;
+
+use std::io;
+use bam::RecordWriter;
 
 #[no_mangle]
 pub mod range;
@@ -17,6 +22,8 @@ use flate2::write::ZlibEncoder;
 use range::{Region};
 use std::io::prelude::*;
 use std::slice;
+use numpress::DEFAULT_SCALING;
+use numpress::numpress_compress;
 
 use libc::{ c_void, c_char, size_t };
 
@@ -46,8 +53,8 @@ pub extern "C" fn hello_rust() -> *const u8 {
 #[no_mangle]
 pub extern "C" fn bit_packing(ptr: *const u32, len: usize) -> *const u8 {
     let data = unsafe { slice::from_raw_parts(ptr, len) };
-    let mut original = vec![0u32, data.len() as u32];
-    original.copy_from_slice(data);
+    let mut original = vec![0u32; data.len() as usize];
+    original.copy_from_slice(&data);
 
     let bitpacker = BitPacker4x::new();
     let num_bits: u8 = bitpacker.num_bits(&original);
@@ -59,10 +66,41 @@ pub extern "C" fn bit_packing(ptr: *const u32, len: usize) -> *const u8 {
 }
 
 #[no_mangle]
+pub extern "C" fn deflate(data: [u8;16]) -> *const u8 {
+    let compressed = deflate_bytes(&data);
+    return compressed.as_ptr()
+}
+
+#[no_mangle]
+pub extern "C" fn float_compression(data: [f64;4]) -> Option<*const u8> {
+    //let floats: Vec<f64> = //vec![100., 101., 102., 103.];
+    let mut original = vec![0f64; data.len() as usize];
+    original.copy_from_slice(&data);
+    let compressed = numpress_compress(&original, DEFAULT_SCALING).map(|t| t.as_ptr()).ok();
+/*    return Some(compressed.as_ptr());*/
+    return compressed;
+}
+
+#[no_mangle]
 pub extern "C" fn decrement_start(mut region: Region) -> Region {
     region.start_minus();
     return region
 }
+
+#[no_mangle]
+pub extern "C" fn bam(bam_name: &str) {
+    let mut reader = bam::IndexedReader::from_path(bam_name.to_string()).unwrap();
+    let output = io::BufWriter::new(io::stdout());
+    let mut writer = bam::SamWriter::build()
+        .write_header(false)
+        .from_stream(output, reader.header().clone()).unwrap();
+
+    for record in reader.fetch(&bam::Region::new(2, 600_000, 700_000)).unwrap() {
+        let record = record.unwrap();
+        writer.write(&record).unwrap();
+    }
+}
+
 /*
 #[no_mangle]
 pub extern fn load_bigbed(path: String, region: Region) -> Vec<Feature> {
@@ -81,12 +119,12 @@ pub extern "C" fn compress_bytes(words: &[u8]) -> Result<Vec<u8>, std::io::Error
     let compressed_bytes = e.finish();
     return compressed_bytes
 }
-/*
+
 #[no_mangle]
-pub extern "C" fn compress_bytes_extern(words: [u32;8]) -> [u8;8] {
-    
+pub extern "C" fn compress_bytes_extern(words: [u8;8]) -> Option<*const u8> {
+    return compress_bytes(&words).map(|t| t.as_ptr()).ok()
 }
-*/
+
 
 #[cfg(test)]
 mod tests {
