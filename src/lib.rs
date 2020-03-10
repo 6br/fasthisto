@@ -88,8 +88,11 @@ pub extern "C" fn decrement_start(mut region: Region) -> Region {
 }
 
 #[no_mangle]
-pub extern "C" fn bam(bam_name: &str) {
-    let mut reader = bam::IndexedReader::from_path(bam_name.to_string()).unwrap();
+pub extern "C" fn bam(c_buf: *const c_char) {
+    let c_str: &CStr = unsafe { CStr::from_ptr(c_buf) };
+    let str_slice: &str = c_str.to_str().unwrap();
+    let str_buf: String = str_slice.to_owned(); 
+    let mut reader = bam::IndexedReader::from_path(str_buf).unwrap();
     let output = io::BufWriter::new(io::stdout());
     let mut writer = bam::SamWriter::build()
         .write_header(false)

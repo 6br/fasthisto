@@ -7,7 +7,7 @@
 
 typedef struct Region Region;
 
-void bam(const str *bam_name);
+void bam(const char *c_buf);
 
 const uint8_t *bit_packing(const uint32_t *ptr, uintptr_t len);
 
