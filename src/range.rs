@@ -3,7 +3,7 @@ extern crate serde_yaml;
 use std::error::Error;
 use std::fmt;
 use regex::Regex;
-use std::ffi::{ CStr, CString };
+use std::ffi::{ CString };
 // use std::r#try;
 
 #[derive(Debug, PartialEq)]

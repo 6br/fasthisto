@@ -9,7 +9,7 @@ extern crate bitpacking;
 extern crate regex;
 use deflate::deflate_bytes;
 extern crate bam;
-
+use std::ffi::{ CStr };
 use std::io;
 use bam::RecordWriter;
 
