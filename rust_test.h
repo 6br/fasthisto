@@ -2,8 +2,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <stdio>
-#include <string>
+#include <string.h>
 
 typedef struct Region Region;
 

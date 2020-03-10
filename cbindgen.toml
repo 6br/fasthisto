@@ -8,4 +8,4 @@
 
 language = "C"
 
-sys_includes = ["stdio", "string"]
+sys_includes = ["string.h"]
