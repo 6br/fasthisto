@@ -15,6 +15,7 @@ use bam::RecordWriter;
 
 #[no_mangle]
 pub mod range;
+pub mod index;
 
 use bitpacking::{BitPacker4x, BitPacker};
 use flate2::Compression;
