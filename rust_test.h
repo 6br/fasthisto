@@ -3,11 +3,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-typedef struct {
-  CString path;
-  uint64_t start;
-  uint64_t stop;
-} Region;
+typedef struct Region Region;
 
 void bam(const str *bam_name);
 
