@@ -10,8 +10,12 @@ mkdir .cargo
 
 target=`rustup show active-toolchain`
 
+echo -e \#\!/bin/sh\\n $@ \"\$@\" > .cargo/cargo_script.sh
+chmod +x .cargo/cargo_script.sh
+pwd=`pwd`
+
 if [[ ${target} =~ ^[^-]*-(.*)\ .*$ ]]; then
-  echo -e "[target.${BASH_REMATCH[1]}]\nlinker = '$cc'" > .cargo/config
+  echo -e "[target.${BASH_REMATCH[1]}]\nlinker = '$pwd/.cargo/cargo_script.sh'" > .cargo/config
 fi
 
 
