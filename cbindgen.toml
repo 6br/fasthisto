@@ -6,6 +6,6 @@
 
 
 
-language = "C"
+language = "C++"
 
 sys_includes = ["string.h"]

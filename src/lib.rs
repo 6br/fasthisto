@@ -1,9 +1,7 @@
 #![feature(rustc_private)]
 #[macro_use]
 extern crate log;
-
 extern crate libc;
-
 extern crate serde_json;
 extern crate bitpacking;
 extern crate regex;
@@ -12,6 +10,7 @@ extern crate bam;
 use std::ffi::{ CStr };
 use std::io;
 use bam::RecordWriter;
+
 
 #[no_mangle]
 pub mod range;
@@ -44,7 +43,6 @@ pub struct RustObject {
     a: i32,
     // Other members...
 }
-
 
 #[no_mangle]
 pub extern "C" fn hello_rust() -> *const u8 {
@@ -104,7 +102,6 @@ pub extern "C" fn bam(c_buf: *const c_char) {
         writer.write(&record).unwrap();
     }
 }
-
 /*
 #[no_mangle]
 pub extern fn load_bigbed(path: String, region: Region) -> Vec<Feature> {
@@ -115,7 +112,6 @@ pub extern fn load_bigbed(path: String, region: Region) -> Vec<Feature> {
     )
 }
 */
-
 #[no_mangle]
 pub extern "C" fn compress_bytes(words: &[u8]) -> Result<Vec<u8>, std::io::Error> {
     let mut e = ZlibEncoder::new(Vec::new(), Compression::default());
