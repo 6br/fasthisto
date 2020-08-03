@@ -25,7 +25,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .y_label_area_size(40)
         .margin(5)
         .caption(args.get(3).unwrap_or(&"Histogram".to_string()), ("sans-serif", 20.0).into_font())
-        .build_ranged(0i32..100i32, 0u32..(len / 5))?;
+        .build_ranged(0i32..101i32, 0u32..(len / 3))?;
 
     chart
         .configure_mesh()
