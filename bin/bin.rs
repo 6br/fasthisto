@@ -6,7 +6,7 @@ use std::{
 };
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args: Vec<String> = env::args().collect();
-    let file = File::open("foo.txt")?;
+    let file = File::open(&args[2])?;
     let reader = BufReader::with_capacity(1000000, file);
 
     let mut data = vec![];
