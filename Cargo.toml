@@ -8,7 +8,7 @@ edition = "2018"
 
 [lib]
 name = "rust_test2"
-crate-type = ["staticlib", "cdylib", "dylib"]
+crate-type = ["staticlib", "cdylib"]
 path= "src/lib.rs"
 
 [[bin]]
