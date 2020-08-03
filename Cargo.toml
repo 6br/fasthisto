@@ -21,6 +21,7 @@ bam = "*"
 #bigtools = "*"
 #mayda = "0.2"
 bitpacking = "0.5" # Pfor
+clap = "*"
 deflate = "*"
 flate2 = "1.0" # A streaming compression/decompression library
 log = "*"
