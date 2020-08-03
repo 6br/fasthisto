@@ -24,8 +24,8 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .x_label_area_size(35)
         .y_label_area_size(40)
         .margin(5)
-        .caption("Histogram Test", ("sans-serif", 50.0).into_font())
-        .build_ranged(0i32..1i32, 0u32..(len / 5))?;
+        .caption(args.get(3).unwrap_or(&"Histogram".to_string()), ("sans-serif", 20.0).into_font())
+        .build_ranged(0i32..100i32, 0u32..(len / 5))?;
 
     chart
         .configure_mesh()
