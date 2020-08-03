@@ -9,10 +9,10 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let file = File::open("foo.txt")?;
     let reader = BufReader::with_capacity(1000000, file);
 
-    let data = vec![];
+    let mut data = vec![];
     for line in reader.lines() {
-        let float = line.unwrap().parse::<f64>().unwrap() * 100;
-        data.push(float);
+        let float = line.unwrap().parse::<f64>().unwrap() * 100.0;
+        data.push(float as i32);
     }
     let len = data.len() as u32;
 
@@ -25,7 +25,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .y_label_area_size(40)
         .margin(5)
         .caption("Histogram Test", ("sans-serif", 50.0).into_font())
-        .build_ranged(0i32..1i32, 0u32..(len / 10))?;
+        .build_ranged(0i32..1i32, 0u32..(len / 5))?;
 
     chart
         .configure_mesh()
