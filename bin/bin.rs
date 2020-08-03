@@ -7,7 +7,7 @@ use std::{
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     let args: Vec<String> = env::args().collect();
     let file = File::open(&args[2])?;
-    let reader = BufReader::with_capacity(1000000, file);
+    let reader = BufReader::with_capacity(10000000, file);
 
     let mut data = vec![];
     for line in reader.lines() {
