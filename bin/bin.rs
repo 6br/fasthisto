@@ -22,9 +22,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let mut chart = ChartBuilder::on(&root)
         .x_label_area_size(35)
-        .y_label_area_size(40)
+        .y_label_area_size(50)
         .margin(5)
-        .caption(args.get(3).unwrap_or(&"Histogram".to_string()), ("sans-serif", 20.0).into_font())
+        .caption(
+            args.get(3).unwrap_or(&"Histogram".to_string()),
+            ("sans-serif", 20.0).into_font(),
+        )
         .build_ranged(0i32..100i32, 0u32..(len / 3))?;
 
     chart
