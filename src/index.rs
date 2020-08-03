@@ -13,7 +13,7 @@ pub struct Chunk {
     end: VirtualOffset, // Or, "length"?
 }
 
-/// Single bin that stores chunks of 
+/// Single bin that stores chunks of
 #[derive(Clone)]
 pub struct Bin {
     bin_id: u32,
@@ -24,15 +24,14 @@ pub struct Bin {
 #[derive(Clone)]
 pub struct Reference {
     bins: HashMap<u32, Bin>, // bin_id is not continuous.
-    // linear_index: LinearIndex,
+                             // linear_index: LinearIndex,
 }
 
 #[derive(Clone)]
 pub struct Index {
-    samples: Vec<String>, // sample names, we expect sample id is continuous.
+    samples: Vec<String>,       // sample names, we expect sample id is continuous.
     references: Vec<Reference>, // the length is inherited from n_ref
 }
-
 
 /// Returns a BAI bin for the record with alignment `[beg-end)`.
 pub fn region_to_bin(beg: i32, end: i32) -> u32 {
@@ -110,5 +109,8 @@ pub fn bin_to_region(bin: u16) -> (i32, i32) {
         }
         left = right;
     }
-    panic!("Bin id should be not bigger than MAX_BIN ({} > {})", bin, MAX_BIN);
+    panic!(
+        "Bin id should be not bigger than MAX_BIN ({} > {})",
+        bin, MAX_BIN
+    );
 }

@@ -7,8 +7,13 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
+name = "rust_test2"
+crate-type = ["staticlib", "cdylib", "dylib"]
+path= "src/lib.rs"
+
+[[bin]]
 name = "rust_test"
-crate-type = ["staticlib", "cdylib"]
+path = "bin/bin.rs"
 
 [dependencies]
 bam = "*"
@@ -20,6 +25,7 @@ deflate = "*"
 flate2 = "1.0" # A streaming compression/decompression library
 log = "*"
 numpress = "1.0"
+plotters = "*"
 regex = "*" 
 serde = "*"
 serde_json = "*"

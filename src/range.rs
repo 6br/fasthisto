@@ -1,9 +1,9 @@
 extern crate serde_yaml;
 
-use std::error::Error;
-use std::fmt;
 use regex::Regex;
-use std::ffi::{ CString };
+use std::error::Error;
+use std::ffi::CString;
+use std::fmt;
 // use std::r#try;
 
 #[derive(Debug, PartialEq)]
@@ -21,12 +21,11 @@ impl fmt::Display for Region {
 }
 
 impl Region {
-    
     pub fn interval(&self) -> u64 {
         if self.inverted() {
-            return self.start - self.stop
+            return self.start - self.stop;
         } else {
-            return self.stop - self.start
+            return self.stop - self.start;
         }
     }
     pub fn inverted(&self) -> bool {
@@ -40,7 +39,10 @@ impl Region {
     }
 
     #[no_mangle]
-    pub extern "C" fn new_with_prefix(path: String, chr_prefix: &str) -> Result<Self, Box<dyn Error>> {
+    pub extern "C" fn new_with_prefix(
+        path: String,
+        chr_prefix: &str,
+    ) -> Result<Self, Box<dyn Error>> {
         let re = Regex::new(r"^(.+):(\d+)-?(\d*)$").unwrap();
         let caps = re.captures(&path).ok_or("Parse Error")?;
         let mut path_str = caps.get(1).ok_or("Parse Path Error")?.as_str();
@@ -64,9 +66,17 @@ impl Region {
         let stop = caps.get(3).ok_or("Parse Stop Position Error")?;
         let start_str: &str = start.as_str().as_ref();
         let stop_str: &str = stop.as_str().as_ref();
-        let start_u64: u64 = start_str.parse::<u64>().map_err(|e| "Parse Int Error, ".to_string() + &e.to_string())?;
-        let stop_u64: u64 = stop_str.parse::<u64>().map_err(|e| "Parse Int Error, ".to_string() + &e.to_string())?;
-        Ok(Region{path: CString::new(path_string).unwrap(), start: start_u64, stop: stop_u64})
+        let start_u64: u64 = start_str
+            .parse::<u64>()
+            .map_err(|e| "Parse Int Error, ".to_string() + &e.to_string())?;
+        let stop_u64: u64 = stop_str
+            .parse::<u64>()
+            .map_err(|e| "Parse Int Error, ".to_string() + &e.to_string())?;
+        Ok(Region {
+            path: CString::new(path_string).unwrap(),
+            start: start_u64,
+            stop: stop_u64,
+        })
     }
 
     pub fn new(path: String) -> Result<Self, Box<dyn Error>> {
@@ -77,9 +87,17 @@ impl Region {
         let stop = caps.get(3).ok_or("Parse Stop Position Error")?;
         let start_str: &str = start.as_str().as_ref();
         let stop_str: &str = stop.as_str().as_ref();
-        let start_u64: u64 = start_str.parse::<u64>().map_err(|e| "Parse Int Error, ".to_string() + &e.to_string())?;
-        let stop_u64: u64 = stop_str.parse::<u64>().map_err(|e| "Parse Int Error, ".to_string() + &e.to_string())?;
-        Ok(Region{path: CString::new(path.as_str().to_string()).unwrap(), start: start_u64, stop: stop_u64})
+        let start_u64: u64 = start_str
+            .parse::<u64>()
+            .map_err(|e| "Parse Int Error, ".to_string() + &e.to_string())?;
+        let stop_u64: u64 = stop_str
+            .parse::<u64>()
+            .map_err(|e| "Parse Int Error, ".to_string() + &e.to_string())?;
+        Ok(Region {
+            path: CString::new(path.as_str().to_string()).unwrap(),
+            start: start_u64,
+            stop: stop_u64,
+        })
     }
 
     pub fn uuid(self: &Region) -> String {
