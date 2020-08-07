@@ -1,5 +1,5 @@
 [package]
-name = "rust_test2"
+name = "fasthisto"
 version = "0.1.0"
 authors = ["6br <tfdvrt@gmail.com>"]
 edition = "2018"
@@ -12,7 +12,7 @@ crate-type = ["staticlib", "cdylib"]
 path= "src/lib.rs"
 
 [[bin]]
-name = "rust_test"
+name = "fasthisto"
 path = "bin/bin.rs"
 
 [dependencies]
