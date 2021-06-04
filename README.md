@@ -9,6 +9,7 @@ Visualize histogram ranged (0f64, 1f64). The input should be a text file with on
 ```bash
 cargo build --release
 cargo run --release -- output.png number.list
+cargo run --release -- output.png number.list TITLE(optional)
 ```
 
 `number.list` looks like as follows.
